@@ -7,7 +7,7 @@ kubernetes:
   port: 6443
   num_nodes: 13
 
-docker_compose:
+services:
   ip: 192.168.1.104
   minio:
     ports:
@@ -38,7 +38,7 @@ templates:
     spark: 
       src: spark-defaults.conf
       dst: ./spark-defaults.conf
-    docker_compose: 
+    services: 
       src: docker/docker-compose.yaml
       dst: ./docker/docker-compose.yaml
 
