@@ -31,7 +31,7 @@ services:
     user: admin
     password: password
     token: token
-
+  
 templates:
   path: ./templates
   disclaimer: "WARNING: Edits in this file will be overwritten when applying the template configurations! Edit the template instead."
@@ -48,5 +48,8 @@ templates:
     hive:
       src: hive-site.xml
       dst: ./docker/hive-site.xml
+    dockerfile:
+      src: Dockerfile
+      dst: ./docker/Dockerfile
 
 ...
