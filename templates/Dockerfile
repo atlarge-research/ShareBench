@@ -17,13 +17,10 @@ COPY docker/jars /opt/{{general.name}}/jars
 COPY docker/tpcds-bin /opt/{{general.name}}/tpcds-bin
 COPY spark-defaults.conf /opt/spark/conf/
 COPY target/scala-2.12/sparkbench_2.12-1.0.jar /opt/{{general.name}}/
-COPY docker/entrypoint.sh /opt/{{general.name}}/entrypoint.sh
 COPY docker/queries /opt/{{general.name}}/queries
 COPY docker/workloads /opt/{{general.name}}/workloads
 COPY docker/log4j2.properties /opt/{{general.name}}/jars/
 
-# Only use outside google cloud if accessing google cloud storage
-# ENTRYPOINT [ "/opt/{{general.name}}/entrypoint.sh" ]
 ENTRYPOINT [ "/opt/entrypoint.sh" ]
 
 USER 185
