@@ -1,0 +1,68 @@
+# {{templates.disclaimer}}
+version: '3.1'
+services:
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: {{services.postgres.user}}
+      POSTGRES_PASSWORD: {{services.postgres.password}}
+      POSTGRES_DB: {{services.postgres.db}}
+    volumes:
+      - {{services.postgres.mnt}}:/var/lib/postgresql/data
+
+  hive:
+    build:
+      context: .
+      dockerfile: Dockerfile-hive
+    image: sacheendra/hive:4.0.0-beta-1
+    restart: always
+    ports:
+      - {{services.hive.port}}:9083
+    environment:
+      SERVICE_OPTS: >
+        -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver 
+        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://postgres:5432/{{services.postgres.db}} 
+        -Djavax.jdo.option.ConnectionUserName={{services.postgres.user}} 
+        -Djavax.jdo.option.ConnectionPassword={{services.postgres.password}}
+      SERVICE_NAME: metastore
+      DB_DRIVER: postgres
+      SKIP_SCHEMA_INIT: "false"
+    volumes:
+      - /mnt/nvme0n1/lennart/sparkbench-data/warehouse:/opt/hive/data/warehouse
+    links:
+      - postgres:postgres
+
+  minio:
+    image: minio/minio:RELEASE.2024-04-18T19-09-19Z-cpuv1
+    restart: always
+    ports:
+      - {{services.minio.ports.core}}:9000
+      - {{services.minio.ports.console}}:9001
+    environment:
+      MINIO_ACCESS_KEY: {{services.minio.access_key}}
+      MINIO_SECRET_KEY: {{services.minio.secret_key}}
+    command: server /data
+    volumes:
+      - {{services.minio.mnt}}:/data
+
+  influx:
+    image: influxdb:2.7.6
+    restart: always
+    ports:
+      - {{services.influx.port}}:8086
+    volumes:
+      - {{services.influx.mnt}}:/var/lib/influxdb/data
+    command: >
+      /bin/bash -c "
+        (
+          until influx ping; do
+            sleep 1
+          done
+          influx setup --force -u {{services.influx.user}} -p {{services.influx.password}} -o {{services.influx.organization}} -t {{services.influx.token}} -b {{services.influx.organization}} 
+          influx bucket create --name telegraf -o sparkbench
+        ) & 
+        influxd
+      "
+
