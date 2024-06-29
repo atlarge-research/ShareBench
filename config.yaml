@@ -42,5 +42,11 @@ templates:
     services: 
       src: docker/docker-compose.yaml
       dst: ./docker/docker-compose.yaml
+    telegraf:
+      src: telegraf.conf
+      dst: ./scripts/telegraf/telegraf.conf
+    hive:
+      src: hive-site.xml
+      dst: ./docker/hive-site.xml
 
 ...
