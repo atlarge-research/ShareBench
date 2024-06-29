@@ -1,3 +1,4 @@
+<!--{{templates.disclaimer}}-->
 <configuration>
     <property>
         <name>fs.s3a.impl</name>
