@@ -7,6 +7,10 @@ kubernetes:
   port: 6443
   num_nodes: 13
 
+scala:
+  version: 2.12.18
+  version_short: 2.12
+
 services:
   ip: 192.168.1.104
   minio:
@@ -51,5 +55,8 @@ templates:
     dockerfile:
       src: Dockerfile
       dst: ./docker/Dockerfile
+    sbt:
+      src: build.sbt
+      dst: ./build.sbt
 
 ...
