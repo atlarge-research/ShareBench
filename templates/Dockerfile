@@ -16,7 +16,7 @@ RUN mkdir -p /opt/{{general.name}} && \
 COPY docker/jars /opt/{{general.name}}/jars
 COPY docker/tpcds-bin /opt/{{general.name}}/tpcds-bin
 COPY spark-defaults.conf /opt/spark/conf/
-COPY target/scala-2.12/sparkbench_2.12-1.0.jar /opt/{{general.name}}/
+COPY target/scala-2.12/{{general.name}}_{{scala.version_short}}-1.0.jar /opt/{{general.name}}/
 COPY docker/queries /opt/{{general.name}}/queries
 COPY docker/workloads /opt/{{general.name}}/workloads
 COPY docker/log4j2.properties /opt/{{general.name}}/jars/
