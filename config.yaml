@@ -2,8 +2,9 @@
 general:
   name: sparkbench
 
-spark:
-  master: k8s://https://192.168.185.2:6443
+kubernetes:
+  ip: 192.168.185.2
+  port: 6443
   num_nodes: 13
 
 docker_compose:
