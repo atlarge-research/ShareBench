@@ -1,0 +1,44 @@
+---
+general:
+  name: sparkbench
+
+spark:
+  master: k8s://https://192.168.185.2:6443
+  num_nodes: 13
+
+docker_compose:
+  ip: 192.168.1.104
+  minio:
+    ports:
+      core: 9000
+      console: 9001
+    mnt: /mnt/nvme0n1/lennart/sparkbench-data/minio
+    access_key: user
+    secret_key: password
+  hive:
+    port: 9083
+    mnt: /mnt/nvme0n1/lennart/sparkbench-data/warehouse
+  postgres:
+    mnt: /mnt/nvme0n1/lennart/sparkbench-data/postgres
+    user: hive
+    password: password
+    db: metastore_db
+  influx:
+    port: 8086
+    mnt: /mnt/nvme0n1/lennart/sparkbench-data/influx
+    organization: sparkbench
+    user: admin
+    password: password
+    token: token
+
+templates:
+  path: ./templates
+  targets:
+    spark: 
+      src: spark-defaults.conf
+      dst: ./spark-defaults.conf
+    docker_compose: 
+      src: docker/docker-compose.yaml
+      dst: ./docker/docker-compose.yaml
+
+...

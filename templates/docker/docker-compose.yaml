@@ -1,0 +1,67 @@
+version: '3.1'
+services:
+
+  postgres:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_USER: {{docker_compose.postgres.user}}
+      POSTGRES_PASSWORD: {{docker_compose.postgres.password}}
+      POSTGRES_DB: {{docker_compose.postgres.db}}
+    volumes:
+      - {{docker_compose.postgres.mnt}}:/var/lib/postgresql/data
+
+  hive:
+    build:
+      context: .
+      dockerfile: Dockerfile-hive
+    image: sacheendra/hive:4.0.0-beta-1
+    restart: always
+    ports:
+      - {{docker_compose.hive.port}}:9083
+    environment:
+      SERVICE_OPTS: >
+        -Djavax.jdo.option.ConnectionDriverName=org.postgresql.Driver 
+        -Djavax.jdo.option.ConnectionURL=jdbc:postgresql://db:5432/{{docker_compose.postgres.db}} 
+        -Djavax.jdo.option.ConnectionUserName={{docker_compose.postgres.user}} 
+        -Djavax.jdo.option.ConnectionPassword={{docker_compose.postgres.password}}
+      SERVICE_NAME: metastore
+      DB_DRIVER: postgres
+      SKIP_SCHEMA_INIT: "false"
+    volumes:
+      - /mnt/nvme0n1/lennart/sparkbench-data/warehouse:/opt/hive/data/warehouse
+    links:
+      - postgres:db
+
+  minio:
+    image: minio/minio:RELEASE.2024-04-18T19-09-19Z-cpuv1
+    restart: always
+    ports:
+      - {{docker_compose.minio.ports.core}}:9000
+      - {{docker_compose.minio.ports.console}}:9001
+    environment:
+      MINIO_ACCESS_KEY: {{docker_compose.minio.access_key}}
+      MINIO_SECRET_KEY: {{docker_compose.minio.secret_key}}
+    command: server /data
+    volumes:
+      - {{docker_compose.minio.mnt}}:/data
+
+  influx:
+    image: influxdb:2.7.6
+    restart: always
+    ports:
+      - {{docker_compose.influx.port}}:8086
+    volumes:
+      - {{docker_compose.influx.mnt}}:/var/lib/influxdb/data
+    command: >
+      /bin/bash -c "
+        (
+          until influx ping; do
+            sleep 1
+          done
+          influx setup --force -u {{docker_compose.influx.user}} -p {{docker_compose.influx.password}} -o {{docker_compose.influx.organization}} -t {{docker_compose.influx.token}} -b {{docker_compose.influx.organization}} 
+          influx bucket create --name telegraf -o sparkbench
+        ) & 
+        influxd
+      "
+
