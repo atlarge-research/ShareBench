@@ -5,7 +5,16 @@ general:
 dirs:
   data: ./data
   pod_templates: ./pod-templates
-  spark: ./spark
+
+subdirs:
+  data:
+    workload_traces: workload-traces
+    dynalloc_logs: dynalloc-logs
+    telegraf: telegraf
+
+buckets:
+  workload_traces: data/workload-traces
+  dynalloc_logs: data/dynalloc-logs
   
 kubernetes:
   ip: 192.168.185.2

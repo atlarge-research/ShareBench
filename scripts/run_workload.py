@@ -10,6 +10,8 @@ from kube_configure_nodes import kube_configure_nodes
 CONFIG = 'config.yaml'
 SPARK_SUBMIT = 'bin/spark-submit'
 DIR_TMP = '.tmp'
+TELEGRAF_COLLECTION_WAIT = 10
+TELEGRAF_COLLECTION_PRE_START = 10
 
 def create_pod_templates(config, num_apps):
     
@@ -78,37 +80,80 @@ def save_pod_logs(pod_names, dir_logs_session):
         with open(f"{dir_logs_session}/{pod}.txt", 'w') as f:
             subprocess.run(["kubectl", "logs", pod], stdout=f)
 
-def s3_cp_if_exists(bucket, dst, name):
-    if subprocess.run(["./bin/mc", "find", bucket], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0:
+def save_workload_traces(config, session_id):
+    s3_bucket_traces_session = f"{config['general']['name']}/{config['buckets']['workload_traces']}/{session_id}/"
+    
+    dir_traces_session = f"{config['dirs']['data']}/{config['subdirs']['data']['workload_traces']}/{session_id}"
+    
+    s3_cp_if_exists(s3_bucket_traces_session, dir_traces_session, "Workload Traces")
+
+def save_from_s3_to_data(config, session_id, resource):
+    s3_bucket = f"{config['general']['name']}/{config['buckets'][resource]}/{session_id}/"
+    
+    local_dir = os.path.join(
+        config['dirs']['data'],
+        config['subdirs']['data'][resource],
+        session_id
+    )
+    
+    s3_cp_if_exists(s3_bucket, local_dir, resource)
+
+
+def s3_cp_if_exists(bucket, dst, name=None):
+    if subprocess.run(["./bin/mc", "find", bucket]).returncode == 0:
         subprocess.run(["./bin/mc", "cp", "-r", bucket, dst])
-        print(f"Success: {name} saved to {dst}!")
+        if name is not None:
+            print(f"Success: {name} saved to {dst}!")
     else:
         print(f"Warning: Bucket {bucket} does not exist in the S3 storage. Something must have gone wrong with the collection in the applications.")
+
+def save_telegraf_metrics(config, session_id, script_start_time):
+    dir_telegraf_session = os.path.join(
+        config['dirs']['data'], 
+        config['subdirs']['data']['telegraf'], 
+        session_id)
+    
+    os.makedirs(dir_telegraf_session, exist_ok=True)
+
+    influx_query_preamble = f'from(bucket:"telegraf") |> range(start: {script_start_time - TELEGRAF_COLLECTION_PRE_START})'
+
+    queries = {
+        'cpu': f'{influx_query_preamble} |> filter(fn: (r) => r._measurement == "cpu")',
+        'mem': f'{influx_query_preamble} |> filter(fn: (r) => r._measurement == "mem" and (r._field == "used" or r._field == "available" or r._field == "total" or r._field == "free" or r._field == "shared" or r._field == "buffered"))'
+    }
+
+    for name, query in queries.items():
+        execute_and_save_query(query, dir_telegraf_session, name)
+
+def execute_and_save_query(query, dir, name):
+    output_file = os.path.join(dir, f"{name}.csv")
+    try:
+        result = subprocess.run(['influx', 'query', query, '--raw'], check=True, capture_output=True, text=True)
+        with open(output_file, 'w') as f:
+            f.write(result.stdout)
+        print(f"Saved {name} metrics with query \"{query}\" to '{output_file}'")
+    except subprocess.CalledProcessError as e:
+        print(f"Error saving {name} metrics: {e}")
 
 def run_workload(config, workload, num_apps, start_delay, add_conf=""):
 
     create_pod_templates(config, num_apps)
     kube_configure_nodes(config['kubernetes']['nodes'], num_apps)
 
-    # Record start time
     script_start_time = int(time.time())
     start_time = script_start_time + args.start_delay
     session_id = f"{workload}/{start_time}"
+    # session_id = "really_short_test_2/1719851002"
 
     processes = submit_spark_apps(config, workload, num_apps, start_time, add_conf)
     return_codes = follow_processes(processes)
-
-    # # Example of saving pod logs (adjust as needed)
-    # pod_names = ["pod1", "pod2"]  # Placeholder for actual pod names
-    # dir_logs_session = f"./logs/{session_id}"
-    # os.makedirs(dir_logs_session, exist_ok=True)
-    # save_pod_logs(pod_names, dir_logs_session)
-
-    # Example of copying from S3 (adjust as needed)
-    # s3_bucket_traces_session = f"sparkbench/data/workload-traces/{session_id}"
-    # s3_cp_if_exists(s3_bucket_traces_session, f"./traces/{session_id}", "Workload traces")
-
     print("Workload run finished!")
+
+    save_from_s3_to_data(config, session_id, 'workload_traces')
+    save_from_s3_to_data(config, session_id, 'dynalloc_logs')
+    print(f"Sleeping for {TELEGRAF_COLLECTION_WAIT} seconds before collecting telegraf metrics...")
+    time.sleep(TELEGRAF_COLLECTION_WAIT)
+    save_telegraf_metrics(config, session_id, script_start_time)
 
 if __name__ == "__main__":
     with open(CONFIG, 'r') as file:
@@ -120,4 +165,5 @@ if __name__ == "__main__":
     parser.add_argument("start_delay", type=int, help="Delay before starting the workload")
     parser.add_argument("--add_conf", default="", help="Additional Spark configuration")
     args = parser.parse_args()
+
     run_workload(config, args.workload, args.num_apps, args.start_delay, args.add_conf)
