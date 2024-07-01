@@ -74,5 +74,8 @@ templates:
     driver_pod:
       src: pod-templates/driver.yaml
       dst: ./pod-templates/driver.yaml
+    log4j2:
+      src: log4j2.properties
+      dst: ./docker/log4j2.properties
 
 ...
