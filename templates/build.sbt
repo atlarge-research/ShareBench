@@ -14,5 +14,7 @@ libraryDependencies += "com.amazonaws" % "aws-java-sdk-bundle" % "1.12.262" from
 //libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % "1.12.262" from ("file://" + currentDirectory + "/docker/jars/aws-java-sdk-s3-1.12.262.jar")
 libraryDependencies += "com.databricks" % "spark-sql-perf_2.12" % "0.5.1" from ("file://" + currentDirectory + "/docker/jars/spark-sql-perf_2.12-0.5.1-SNAPSHOT.jar")
 libraryDependencies += "com.lihaoyi" %% "upickle" % "3.3.1" from ("file://" + currentDirectory + "/docker/jars/upickle_2.12-3.3.1.jar")
+// spark -> io.fabric8.kubernetes -> <something> -> snakeyaml 1.26!! Newer versions don't work...
+libraryDependencies += "org.yaml" % "snakeyaml" % "1.26" from ("file://" + currentDirectory + "/docker/jars/snakeyaml-1.26.jar")
 
 
