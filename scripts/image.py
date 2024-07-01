@@ -7,7 +7,7 @@ import jinja2 as jin
 CONFIG = 'config.yaml'
 KEY = 'docker'
 
-def build_program():
+def compile_project():
     sdkman_init_script = os.path.expanduser("~/.sdkman/bin/sdkman-init.sh")
     command = f'source {sdkman_init_script} && sbt package'
     subprocess.run(command, shell=True, executable='/bin/bash', check=True)
@@ -19,16 +19,11 @@ def docker_push(uri_image):
     subprocess.run(['docker', 'login'], check=True)
     subprocess.run(['docker', 'push', uri_image], check=True)
 
-def push_image(config, build = True):
-
+def push_image(config = True):
     username = config[KEY]['username']
     image = config['general']['name']
     version = config[KEY]['version']
     uri = f"{username}/{image}:{version}"
-
-    if build:
-        print("Building the project...")
-        build_program()
 
     docker_build(uri)
     docker_push(uri)
@@ -41,4 +36,7 @@ if __name__ == "__main__":
     parser.add_argument('-b', '--build', action='store_true', help='Build the program from source.')
     args = parser.parse_args()
 
-    push_image(config, args.build)
+    if args.build:
+        compile_project()
+    
+    push_image(config)
