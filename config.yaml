@@ -1,6 +1,6 @@
 ---
 general:
-  name: sparkbench
+  name: sharebench
 
 dirs:
   data: ./data
@@ -15,6 +15,7 @@ kubernetes:
 scala:
   version: 2.12.18
   version_short: 2.12
+  class: ShareBench
 
 docker:
   username: lkmschulz2
