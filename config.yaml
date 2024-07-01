@@ -2,6 +2,11 @@
 general:
   name: sparkbench
 
+dirs:
+  data: ./data
+  pod_templates: ./pod-templates
+  spark: ./spark
+  
 kubernetes:
   ip: 192.168.185.2
   port: 6443
