@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: executor
+  labels:
+    spark-app-id: $(SPARK_APP_ID)
+spec:
+  containers:
+  - name: {{general.name}}
+    image: {{docker.username}}/{{general.name}}:{{docker.version}}
+    resources:
+      requests:
+        ephemeral-storage: "8G"
+      limits:
+        ephemeral-storage: "8G"
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: spark-app-id
+            operator: In
+            values:
+            - $(SPARK_APP_ID)
+        topologyKey: "kubernetes.io/hostname"
+  imagePullSecrets:
+  - name: regcred

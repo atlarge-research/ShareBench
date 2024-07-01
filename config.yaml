@@ -62,5 +62,11 @@ templates:
     sbt:
       src: build.sbt
       dst: ./build.sbt
+    executor_pod:
+      src: pod-templates/executor.yaml
+      dst: pod-templates/executor.yaml
+    driver_pod:
+      src: pod-templates/driver.yaml
+      dst: pod-templates/driver.yaml
 
 ...
