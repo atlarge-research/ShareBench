@@ -1,3 +1,4 @@
+import argparse
 import subprocess
 import grp
 import os
@@ -6,6 +7,7 @@ import yaml
 import shutil
 from misc.filenames import get_spark_full_name, get_spark_path
 from telegraf.run_on_remotes import run_on_remotes
+from apply_configurations import apply_configurations
 
 PATH_CONFIG = "./config.yaml"
 
@@ -42,8 +44,14 @@ def main():
     with open(PATH_CONFIG, "r") as file:
         config = yaml.safe_load(file)
 
-    STEPS['telegraf'](config)
-    return
+    parser = argparse.ArgumentParser(description="Apply configurations to template files.")
+    parser.add_argument('-t', '--targets', nargs='+', default=list(TARGETS), help='List of installations to perform. Defaults to all available installations if omitted.')
+
+    args = parser.parse_args()
+    targets = args.targets
+
+    for target in targets:
+        TARGETS[target](config)
 
 def install_docker(config):
     print("Installing docker...")
@@ -71,6 +79,7 @@ def install_zip(config):
     subprocess.run(f"sudo {PKG_MNG} install -y zip unzip", check=True, shell=True)
 
 def install_sdk_man(config):
+    print("Installing sdk_man...")
     if not os.path.isdir(os.path.join(os.environ['HOME'], '.sdkman')):
         print("SDKMAN! is not installed. Installing...")
         subprocess.run("curl -s \"https://get.sdkman.io/\" | bash", shell=True, check=True)
@@ -96,7 +105,6 @@ def download_dependency_jars(config):
         download_if_not_exists(url, dst_path) 
 
 def start_services(config):
-
     print("Creating folders for service mounts...")
 
     for service in config['services']:
@@ -110,11 +118,12 @@ def start_services(config):
         except KeyError:
             continue
     
+    print("Starting services...")
     path_docker_compose = config['templates']['targets']['services']['dst']
     subprocess.run(f"docker-compose -f '{path_docker_compose}' up -d", check=True, shell=True)
 
 def setup_minio(config):
-
+    print("Setting up minio...")
     os.makedirs(DIR_BIN, exist_ok=True)
     dst_path = os.path.join(DIR_BIN, 'mc')
 
@@ -125,13 +134,14 @@ def setup_minio(config):
     # requires docker compose to be up and running
     config_minio = config['services']['minio']
     name = config['general']['name']
-    url = f"http://{config['services']['ip']}:{config_minio['ports']['core']}"
+    url = f"http://{config['services']['general']['ip']}:{config_minio['ports']['core']}"
     user = config_minio['access_key']
     secret = config_minio['secret_key']
     cmd = f"{dst_path} alias set {name} {url} {user} {secret}"
     subprocess.run(cmd, check=True, shell=True)
 
 def setup_influx(config):
+    print("Setting up influx...")
     os.makedirs(DIR_BIN, exist_ok=True)
     path_influx = os.path.join(DIR_BIN, 'influx')
 
@@ -149,7 +159,7 @@ def setup_influx(config):
 
     config_influx = config['services']['influx']
     name = config['general']['name']
-    url = f"http://{config['services']['ip']}:{config_influx['port']}"
+    url = f"http://{config['services']['general']['ip']}:{config_influx['port']}"
     org = config['general']['name']
     token = config_influx['token']
 
@@ -160,9 +170,10 @@ def setup_influx(config):
     subprocess.run(cmd, check=True, shell=True)
 
 def download_spark(config):
+    print("Downloading spark...")
     spark_ver = config['spark']['version']
     spark_full_name = get_spark_full_name(config)
-    spark_path = get_spark_path(PATH_CONFIG)
+    spark_path = get_spark_path(config)
 
     if not os.path.exists(spark_path):
         os.makedirs(DIR_SPARK, exist_ok=True)
@@ -186,10 +197,12 @@ def download_if_not_exists(url, dst_path):
         return dst_path
 
 def install_telegraf_on_remotes(config):
+    print("Installing telegraf on remote machines...")
     ssh_keyfile = config['kubernetes']['ssh_keyfile']
     run_on_remotes("./install-telegraf.sh", path_hosts=PATH_HOSTS, path_key=ssh_keyfile, files=[PATH_INSTALL_TELEGRAF], verbose=True)
         
-STEPS = {
+TARGETS = {
+    'configurations': apply_configurations,
     'docker': install_docker,
     'zip': install_zip,
     'sdk_man': install_sdk_man,
@@ -203,3 +216,4 @@ STEPS = {
 
 if __name__ == "__main__":
     main()
+    
