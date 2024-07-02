@@ -5,6 +5,7 @@ general:
 dirs:
   data: ./data
   pod_templates: ./pod-templates
+  spark: ./spark
 
 subdirs:
   data:
