@@ -59,6 +59,8 @@ templates:
   path: ./templates
   disclaimer: "WARNING: Edits in this file will be overwritten when applying the template configurations! Edit the template instead."
   targets:
+    config:
+      dst: ./src/main/resources/config.yaml
     spark: 
       src: spark-defaults.conf
       dst: ./spark-defaults.conf
