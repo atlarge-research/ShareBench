@@ -7,6 +7,7 @@ import yaml
 import select
 from kube_configure_nodes import kube_configure_nodes
 from mechanisms import get_mechanism_conf
+from misc.filenames import get_spark_path
 
 CONFIG = 'config.yaml'
 SPARK_SUBMIT = 'bin/spark-submit'
@@ -32,7 +33,7 @@ def create_pod_templates(config, num_apps):
 def submit_spark_apps(config, workload, num_apps, start_time, add_conf):
 
     # Spark submit command and flags
-    spark_submit = f"{config['dirs']['spark']}/{SPARK_SUBMIT}"
+    spark_submit = f"{get_spark_path(config)}/{SPARK_SUBMIT}"
     spark_flags = f"\
         --class {config['scala']['class']} \
         --properties-file {config['templates']['targets']['spark']['dst']} \
