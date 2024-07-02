@@ -146,7 +146,7 @@ def run_workload(config, workload, num_apps, start_delay, add_conf="", mechanism
     kube_configure_nodes(config['kubernetes']['nodes'], num_apps)
 
     script_start_time = int(time.time())
-    start_time = script_start_time + args.start_delay
+    start_time = script_start_time + start_delay
     session_id = f"{workload}/{start_time}"
     # session_id = "really_short_test_2/1719851002"
 
@@ -154,11 +154,8 @@ def run_workload(config, workload, num_apps, start_delay, add_conf="", mechanism
     return_codes = follow_processes(processes)
     print("Workload run finished!")
 
-    save_from_s3_to_data(config, session_id, 'workload_traces')
-    save_from_s3_to_data(config, session_id, 'dynalloc_logs')
-    print(f"Sleeping for {TELEGRAF_COLLECTION_WAIT} seconds before collecting telegraf metrics...")
-    time.sleep(TELEGRAF_COLLECTION_WAIT)
-    save_telegraf_metrics(config, session_id, script_start_time)
+
+    return session_id
 
 if __name__ == "__main__":
     with open(CONFIG, 'r') as file:
