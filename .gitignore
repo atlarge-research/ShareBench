@@ -76,4 +76,6 @@ experiments/recipe-books/*
 experiments/results/*
 experiments/output/*
 
+hosts.txt
+
 !**/.gitkeep
