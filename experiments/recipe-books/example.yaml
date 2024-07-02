@@ -1,0 +1,21 @@
+default:
+  mechanisms:
+    - shared
+    - static
+  num_apps: 
+    - 2
+    - 3
+  append_app_count: True
+
+recipes:
+  - workloads:
+    - test
+  - workloads:
+    - short_test_2
+    num_apps: 2
+    append_app_count: False
+  - workloads:
+    - another_test
+    - yet_another_test
+    mechanisms:
+    - dynamic
