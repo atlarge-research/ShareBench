@@ -6,6 +6,7 @@ from datetime import datetime
 import yaml
 import select
 from kube_configure_nodes import kube_configure_nodes
+from mechanisms import get_mechanism_conf
 
 CONFIG = 'config.yaml'
 SPARK_SUBMIT = 'bin/spark-submit'
@@ -135,7 +136,10 @@ def execute_and_save_query(query, dir, name):
     except subprocess.CalledProcessError as e:
         print(f"Error saving {name} metrics: {e}")
 
-def run_workload(config, workload, num_apps, start_delay, add_conf=""):
+def run_workload(config, workload, num_apps, start_delay, add_conf="", mechanism=None):
+
+    if mechanism is not None:
+        add_conf = ' '.join([get_mechanism_conf(config, num_apps, mechanism), add_conf])
 
     create_pod_templates(config, num_apps)
     kube_configure_nodes(config['kubernetes']['nodes'], num_apps)
@@ -163,7 +167,9 @@ if __name__ == "__main__":
     parser.add_argument("num_apps", type=int, help="Number of applications to submit")
     parser.add_argument("workload", help="Workload file path")
     parser.add_argument("start_delay", type=int, help="Delay before starting the workload")
+    parser.add_argument('-m', '--mechanism', type=str, default=None, help="Mechansim to use.")
     parser.add_argument("--add_conf", default="", help="Additional Spark configuration")
     args = parser.parse_args()
 
-    run_workload(config, args.workload, args.num_apps, args.start_delay, args.add_conf)
+    run_workload(config, args.workload, args.num_apps, args.start_delay, args.add_conf, args.mechanism)
+    
