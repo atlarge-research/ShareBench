@@ -26,6 +26,7 @@ kubernetes:
   nodes: 4
   memory: 32
   cpu: 4
+  ssh_keyfile: ~/.ssh/id_rsa_continuum
 
 spark:
   version: 3.5.1
