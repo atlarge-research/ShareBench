@@ -78,11 +78,6 @@ def follow_processes(processes):
                 
     return return_codes
 
-def save_pod_logs(pod_names, dir_logs_session):
-    for pod in pod_names:
-        with open(f"{dir_logs_session}/{pod}.txt", 'w') as f:
-            subprocess.run(["kubectl", "logs", pod], stdout=f)
-
 def save_workload_traces(config, session_id):
     s3_bucket_traces_session = f"{config['general']['name']}/{config['buckets']['workload_traces']}/{session_id}/"
     
