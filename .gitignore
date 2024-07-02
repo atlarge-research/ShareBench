@@ -63,3 +63,5 @@ experiments/recipe-books/*
 !experiments/recipe-books/example.yaml
 experiments/results/*
 experiments/output/*
+
+!**/.gitkeep
