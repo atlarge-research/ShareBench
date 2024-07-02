@@ -11,6 +11,7 @@ from mechanisms import get_mechanism_conf
 CONFIG = 'config.yaml'
 SPARK_SUBMIT = 'bin/spark-submit'
 DIR_TMP = '.tmp'
+OUTPUT_FILTER = 'INFO LoggingPodStatusWatcherImpl: Application status'
 TELEGRAF_COLLECTION_WAIT = 10
 TELEGRAF_COLLECTION_PRE_START = 10
 
@@ -71,7 +72,7 @@ def follow_processes(processes):
             streams, _, _ = select.select([proc.stdout, proc.stderr], [], [], 0.01)
             for stream in streams:
                 output = stream.readline()
-                if output: 
+                if (output_str := output.decode()) and not OUTPUT_FILTER in output_str:
                     print(output.decode(), end='')
                 
     return return_codes
