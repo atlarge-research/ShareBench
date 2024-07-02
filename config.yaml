@@ -12,6 +12,9 @@ subdirs:
     workload_traces: workload-traces
     dynalloc_logs: dynalloc-logs
     telegraf: telegraf
+  experiments:
+    recipe_books: recipe-books
+    results: results
 
 buckets:
   workload_traces: data/workload-traces
