@@ -7,7 +7,7 @@ def get_mechanism_conf(config, num_apps, mechanism):
     conf = []
     memory = 0
     memory_avail = config['spark']['memory']
-    cpu_avail = config['kubernetes']['cpu']
+    cpu_avail = config['kubernetes']['cpu'] * 1000
     num_nodes_avail = config['kubernetes']['nodes']
     num_worker_nodes = num_nodes_avail - num_apps
 
@@ -43,6 +43,8 @@ def get_mechanism_conf(config, num_apps, mechanism):
             # currently rounding down the memory to full GBs, could be changed to MB instead to allow better distribution...
             
             cpu = (cpu_avail - CPU_OVERHEAD) // num_apps 
+            if cpu <= 0:
+                raise ValueError(f"Not enough cpu resources available. Computed share per executor: {cpu}m")
             conf.append(f"spark.kubernetes.executor.request.cores={cpu}m")
 
             executors = num_worker_nodes
