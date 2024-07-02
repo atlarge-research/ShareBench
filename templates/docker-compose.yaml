@@ -60,8 +60,8 @@ services:
           until influx ping; do
             sleep 1
           done
-          influx setup --force -u {{services.influx.user}} -p {{services.influx.password}} -o {{services.influx.organization}} -t {{services.influx.token}} -b {{services.influx.organization}} 
-          influx bucket create --name telegraf -o sparkbench
+          influx setup --force -u {{services.influx.user}} -p {{services.influx.password}} -o {{general.name}} -t {{services.influx.token}} -b {{general.name}} 
+          influx bucket create --name telegraf -o {{general.name}} -r {{services.influx.retention}}
         ) & 
         influxd
       "

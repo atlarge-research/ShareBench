@@ -62,10 +62,10 @@ services:
   influx:
     port: 8086
     mnt: /mnt/nvme0n1/lennart/sparkbench-data/influx
-    organization: sparkbench
     user: admin
     password: password
     token: token
+    retention: 1w
   
 templates:
   path: ./templates
