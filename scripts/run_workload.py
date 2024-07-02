@@ -131,7 +131,7 @@ def save_telegraf_metrics(config, session_id, script_start_time):
 def execute_and_save_query(query, dir, name):
     output_file = os.path.join(dir, f"{name}.csv")
     try:
-        result = subprocess.run(['influx', 'query', query, '--raw'], check=True, capture_output=True, text=True)
+        result = subprocess.run(['./bin/influx', 'query', query, '--raw'], check=True, capture_output=True, text=True)
         with open(output_file, 'w') as f:
             f.write(result.stdout)
         print(f"Saved {name} metrics with query \"{query}\" to '{output_file}'")
