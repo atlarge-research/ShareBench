@@ -11,6 +11,9 @@ project/metals.sbt
 # vs code
 .vscode
 
+# python
+.venv
+
 # scala 3
 .tasty
 
