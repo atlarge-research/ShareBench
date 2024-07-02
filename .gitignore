@@ -49,6 +49,8 @@ bin/
 
 **/__pycache__
 
+spark/*
+
 docker/hive-site.xml
 docker/docker-compose.yaml
 docker/Dockerfile
