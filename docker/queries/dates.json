@@ -1,0 +1,28 @@
+{
+    "default": [
+        "FALSE",
+        "d_date = cast('2000-04-30' as date)",
+        "d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week))",
+        "d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week))",
+        "d_year = 2000 and d_moy = 1",
+        "d_year = 2000 and d_moy between 1 and 2",
+        "d_year = 2000 and d_moy between 1 and 3",
+        "d_year = 2000 and d_moy between 1 and 4",
+        "d_year = 2000 and d_moy between 1 and 5",
+        "d_year = 2000 and d_moy between 1 and 6",
+        "d_year = 2000 and d_moy between 1 and 7",
+        "d_year = 2000 and d_moy between 1 and 8",
+        "d_year = 2000 and d_moy between 1 and 9",
+        "d_year = 2000 and d_moy between 1 and 10",
+        "d_year = 2000 and d_moy between 1 and 11",
+        "d_year = 2000",
+        "d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6)",
+        "d_year = 2000 or d_year = 2001"
+    ],
+    "q3": [
+        "d_moy = 11",
+        "d_moy between 1 and 3",
+        "d_moy between 4 and 9",
+        "d_moy = 4 and d_dom = 30"
+    ]
+}
