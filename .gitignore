@@ -49,6 +49,16 @@ bin/
 
 **/__pycache__
 
+docker/hive-site.xml
+docker/docker-compose.yaml
+docker/Dockerfile
+build.sbt
+pod-templates/driver.yaml
+pod-templates/executor.yaml
+src/main/resources/config.yaml
+docker/log4j2.properties
+spark-defaults.conf
+
 experiments/recipe-books/*
 !experiments/recipe-books/example.yaml
 experiments/results/*
