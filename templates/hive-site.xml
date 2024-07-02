@@ -6,7 +6,7 @@
     </property>
     <property>
         <name>fs.s3a.endpoint</name>
-        <value>http://{{services.ip}}:{{services.minio.ports.core}}</value>
+        <value>http://{{services.general.ip}}:{{services.minio.ports.core}}</value>
     </property>
     <property>
         <name>fs.s3a.path.style.access</name>
