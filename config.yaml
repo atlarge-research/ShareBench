@@ -42,7 +42,8 @@ docker:
   version: latest
 
 services:
-  ip: 192.168.1.104
+  general:
+    ip: 192.168.1.104
   minio:
     ports:
       core: 9000
