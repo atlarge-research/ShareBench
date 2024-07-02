@@ -148,12 +148,16 @@ def run_workload(config, workload, num_apps, start_delay, add_conf="", mechanism
     script_start_time = int(time.time())
     start_time = script_start_time + start_delay
     session_id = f"{workload}/{start_time}"
-    # session_id = "really_short_test_2/1719851002"
 
     processes = submit_spark_apps(config, workload, num_apps, start_time, add_conf)
     return_codes = follow_processes(processes)
     print("Workload run finished!")
 
+    save_from_s3_to_data(config, session_id, 'workload_traces')
+    save_from_s3_to_data(config, session_id, 'dynalloc_logs')
+    print(f"Sleeping for {TELEGRAF_COLLECTION_WAIT} seconds before collecting telegraf metrics...")
+    time.sleep(TELEGRAF_COLLECTION_WAIT)
+    save_telegraf_metrics(config, session_id, script_start_time)
 
     return session_id
 
