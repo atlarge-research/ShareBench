@@ -77,5 +77,6 @@ experiments/results/*
 experiments/output/*
 
 hosts.txt
+config.yaml
 
 !**/.gitkeep
