@@ -21,7 +21,7 @@ buckets:
   dynalloc_logs: data/dynalloc-logs
   
 kubernetes:
-  ip: 192.168.185.2
+  ip: 192.168.188.2
   port: 6443
   nodes: 4
   memory: 32
