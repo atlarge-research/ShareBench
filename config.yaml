@@ -19,7 +19,11 @@ buckets:
 kubernetes:
   ip: 192.168.185.2
   port: 6443
-  nodes: 13
+
+spark:
+  version: 3.5.1
+  type: bin-hadoop3
+  memory: 24
 
 scala:
   version: 2.12.18
