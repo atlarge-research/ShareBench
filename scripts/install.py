@@ -5,6 +5,7 @@ import urllib.request
 import yaml
 import shutil
 from misc.filenames import get_spark_full_name, get_spark_path
+from telegraf.run_on_remotes import run_on_remotes
 
 PATH_CONFIG = "./config.yaml"
 
@@ -34,11 +35,14 @@ DIR_SPARK = "./spark"
 URL_SPARK_BASE = "https://dlcdn.apache.org/spark"
 EXT_SPARK_ARCHIVE = ".tgz"
 
+PATH_HOSTS = './hosts.txt'
+PATH_INSTALL_TELEGRAF = './scripts/telegraf/install-telegraf.sh'
+
 def main():
     with open(PATH_CONFIG, "r") as file:
         config = yaml.safe_load(file)
 
-    STEPS['services'](config)
+    STEPS['telegraf'](config)
     return
 
 def install_docker(config):
@@ -180,6 +184,10 @@ def download_if_not_exists(url, dst_path):
     else:
         print(f"{dst_path} already exists. Skipping download.")
         return dst_path
+
+def install_telegraf_on_remotes(config):
+    ssh_keyfile = config['kubernetes']['ssh_keyfile']
+    run_on_remotes("./install-telegraf.sh", path_hosts=PATH_HOSTS, path_key=ssh_keyfile, files=[PATH_INSTALL_TELEGRAF], verbose=True)
         
 STEPS = {
     'docker': install_docker,
@@ -189,7 +197,8 @@ STEPS = {
     'services': start_services,
     'minio': setup_minio,
     'influx': setup_influx,
-    'spark': download_spark
+    'spark': download_spark,
+    'telegraf': install_telegraf_on_remotes
 }
 
 if __name__ == "__main__":
