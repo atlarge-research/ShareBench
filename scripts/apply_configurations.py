@@ -2,12 +2,12 @@ import yaml
 import jinja2 as jin
 import argparse
 
-CONFIG = 'config.yaml'
+PATH_CONFIG = 'config.yaml'
 KEY = 'templates'
 KEY_SRC = 'src'
 KEY_DST = 'dst'
 
-with open(CONFIG, 'r') as file:
+with open(PATH_CONFIG, 'r') as file:
     config = yaml.safe_load(file)
 
 parser = argparse.ArgumentParser('apply_configurations')
