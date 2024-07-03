@@ -1,0 +1,12 @@
+d_date = cast('2000-04-30' as date),1537,4778
+d_year = 2000 and d_moy between 1 and 3,169132,11368
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '10' day)),15573,4680
+d_year = 2000 and d_moy between 1 and 6,284199,24677
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' day)),4494,4810
+d_year = 2000 and d_moy between 1 and 9,365114,25767
+d_year = 2000,498230,23161
+d_date between cast('2000-08-23' as date) and ((cast('2000-08-23' as date) + interval '14' day)),13893,4022
+d_year = 2000 and d_moy = 1,61097,6515
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),11475,4557
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '4' day)),7259,4211
+d_moy = 11,212446,12121

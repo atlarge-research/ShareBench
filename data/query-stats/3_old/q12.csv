@@ -1,0 +1,11 @@
+d_year = 2000 and d_moy between 1 and 3,5922
+d_date = cast('2000-04-30' as date),4281
+d_year = 2000 and d_moy between 1 and 6,7078
+d_year = 2000 and d_moy between 1 and 9,9772
+d_year = 2000,16324
+d_date between cast('2000-08-23' as date) and ((cast('2000-08-23' as date) + interval '14' day)),4068
+d_year = 2000 and d_moy = 1,5282
+d_year = 1999 and d_moy = 8,4777
+d_year = 2001 and (d_moy between 1 and 6),7095
+d_moy = 11,12922
+d_year = 2000 and (d_moy between 6 and 8),5778

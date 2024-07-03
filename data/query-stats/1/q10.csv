@@ -1,0 +1,181 @@
+range,time,rows
+FALSE,2348,0
+FALSE,1597,0
+FALSE,1565,0
+FALSE,1759,0
+FALSE,1566,0
+FALSE,1408,0
+FALSE,1015,0
+FALSE,1388,0
+FALSE,1100,0
+FALSE,1329,0
+d_date = cast('2000-04-30' as date),8214,1
+d_date = cast('2000-04-30' as date),8292,1
+d_date = cast('2000-04-30' as date),8540,1
+d_date = cast('2000-04-30' as date),7773,1
+d_date = cast('2000-04-30' as date),8119,1
+d_date = cast('2000-04-30' as date),8038,1
+d_date = cast('2000-04-30' as date),7717,1
+d_date = cast('2000-04-30' as date),8413,1
+d_date = cast('2000-04-30' as date),7567,1
+d_date = cast('2000-04-30' as date),8281,1
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),9604,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),9079,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8656,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8631,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8920,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8676,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8721,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8811,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8789,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '1' week)),8606,220
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10718,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),11318,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10662,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10612,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10561,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10497,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10316,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10570,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10174,780
+d_date between cast('2000-04-30' as date) and ((cast('2000-04-30' as date) + interval '2' week)),10675,780
+d_year = 2000 and d_moy = 1,15833,3876
+d_year = 2000 and d_moy = 1,15668,3876
+d_year = 2000 and d_moy = 1,15963,3876
+d_year = 2000 and d_moy = 1,17093,3876
+d_year = 2000 and d_moy = 1,15524,3876
+d_year = 2000 and d_moy = 1,15914,3876
+d_year = 2000 and d_moy = 1,15699,3876
+d_year = 2000 and d_moy = 1,15542,3876
+d_year = 2000 and d_moy = 1,15641,3876
+d_year = 2000 and d_moy = 1,15746,3876
+d_year = 2000 and d_moy between 1 and 2,22958,10935
+d_year = 2000 and d_moy between 1 and 2,23521,10935
+d_year = 2000 and d_moy between 1 and 2,23442,10935
+d_year = 2000 and d_moy between 1 and 2,23557,10935
+d_year = 2000 and d_moy between 1 and 2,23745,10935
+d_year = 2000 and d_moy between 1 and 2,23073,10935
+d_year = 2000 and d_moy between 1 and 2,23426,10935
+d_year = 2000 and d_moy between 1 and 2,23045,10935
+d_year = 2000 and d_moy between 1 and 2,23673,10935
+d_year = 2000 and d_moy between 1 and 2,23164,10935
+d_year = 2000 and d_moy between 1 and 3,31862,20657
+d_year = 2000 and d_moy between 1 and 3,32151,20657
+d_year = 2000 and d_moy between 1 and 3,33283,20657
+d_year = 2000 and d_moy between 1 and 3,32238,20657
+d_year = 2000 and d_moy between 1 and 3,33140,20657
+d_year = 2000 and d_moy between 1 and 3,33274,20657
+d_year = 2000 and d_moy between 1 and 3,34078,20657
+d_year = 2000 and d_moy between 1 and 3,32601,20657
+d_year = 2000 and d_moy between 1 and 3,34427,20657
+d_year = 2000 and d_moy between 1 and 3,32117,20657
+d_year = 2000 and d_moy between 1 and 4,42865,30334
+d_year = 2000 and d_moy between 1 and 4,42409,30334
+d_year = 2000 and d_moy between 1 and 4,40428,30334
+d_year = 2000 and d_moy between 1 and 4,39854,30334
+d_year = 2000 and d_moy between 1 and 4,40955,30334
+d_year = 2000 and d_moy between 1 and 4,42226,30334
+d_year = 2000 and d_moy between 1 and 4,44201,30334
+d_year = 2000 and d_moy between 1 and 4,42519,30334
+d_year = 2000 and d_moy between 1 and 4,42707,30334
+d_year = 2000 and d_moy between 1 and 4,41861,30334
+d_year = 2000 and d_moy between 1 and 5,58738,40093
+d_year = 2000 and d_moy between 1 and 5,57164,40093
+d_year = 2000 and d_moy between 1 and 5,57560,40093
+d_year = 2000 and d_moy between 1 and 5,57037,40093
+d_year = 2000 and d_moy between 1 and 5,60220,40093
+d_year = 2000 and d_moy between 1 and 5,57813,40093
+d_year = 2000 and d_moy between 1 and 5,57080,40093
+d_year = 2000 and d_moy between 1 and 5,56715,40093
+d_year = 2000 and d_moy between 1 and 5,57885,40093
+d_year = 2000 and d_moy between 1 and 5,57681,40093
+d_year = 2000 and d_moy between 1 and 6,74496,49058
+d_year = 2000 and d_moy between 1 and 6,75139,49058
+d_year = 2000 and d_moy between 1 and 6,75232,49058
+d_year = 2000 and d_moy between 1 and 6,73233,49058
+d_year = 2000 and d_moy between 1 and 6,69187,49058
+d_year = 2000 and d_moy between 1 and 6,73310,49058
+d_year = 2000 and d_moy between 1 and 6,69949,49058
+d_year = 2000 and d_moy between 1 and 6,69021,49058
+d_year = 2000 and d_moy between 1 and 6,72936,49058
+d_year = 2000 and d_moy between 1 and 6,73279,49058
+d_year = 2000 and d_moy between 1 and 7,74471,57209
+d_year = 2000 and d_moy between 1 and 7,79940,57209
+d_year = 2000 and d_moy between 1 and 7,78688,57209
+d_year = 2000 and d_moy between 1 and 7,79783,57209
+d_year = 2000 and d_moy between 1 and 7,73511,57209
+d_year = 2000 and d_moy between 1 and 7,73934,57209
+d_year = 2000 and d_moy between 1 and 7,78930,57209
+d_year = 2000 and d_moy between 1 and 7,81207,57209
+d_year = 2000 and d_moy between 1 and 7,81112,57209
+d_year = 2000 and d_moy between 1 and 7,80308,57209
+d_year = 2000 and d_moy between 1 and 8,89946,72456
+d_year = 2000 and d_moy between 1 and 8,90371,72456
+d_year = 2000 and d_moy between 1 and 8,88180,72456
+d_year = 2000 and d_moy between 1 and 8,87989,72456
+d_year = 2000 and d_moy between 1 and 8,88313,72456
+d_year = 2000 and d_moy between 1 and 8,87588,72456
+d_year = 2000 and d_moy between 1 and 8,87786,72456
+d_year = 2000 and d_moy between 1 and 8,86482,72456
+d_year = 2000 and d_moy between 1 and 8,79718,72456
+d_year = 2000 and d_moy between 1 and 8,84233,72456
+d_year = 2000 and d_moy between 1 and 9,103730,82958
+d_year = 2000 and d_moy between 1 and 9,111079,82958
+d_year = 2000 and d_moy between 1 and 9,108649,82958
+d_year = 2000 and d_moy between 1 and 9,107601,82958
+d_year = 2000 and d_moy between 1 and 9,110456,82958
+d_year = 2000 and d_moy between 1 and 9,110829,82958
+d_year = 2000 and d_moy between 1 and 9,102286,82958
+d_year = 2000 and d_moy between 1 and 9,107686,82958
+d_year = 2000 and d_moy between 1 and 9,104560,82958
+d_year = 2000 and d_moy between 1 and 9,102271,82958
+d_year = 2000 and d_moy between 1 and 10,110782,90562
+d_year = 2000 and d_moy between 1 and 10,110305,90562
+d_year = 2000 and d_moy between 1 and 10,111039,90562
+d_year = 2000 and d_moy between 1 and 10,110391,90562
+d_year = 2000 and d_moy between 1 and 10,111229,90562
+d_year = 2000 and d_moy between 1 and 10,110545,90562
+d_year = 2000 and d_moy between 1 and 10,111023,90562
+d_year = 2000 and d_moy between 1 and 10,110106,90562
+d_year = 2000 and d_moy between 1 and 10,111702,90562
+d_year = 2000 and d_moy between 1 and 10,110424,90562
+d_year = 2000 and d_moy between 1 and 11,142493,97343
+d_year = 2000 and d_moy between 1 and 11,141389,97343
+d_year = 2000 and d_moy between 1 and 11,142451,97343
+d_year = 2000 and d_moy between 1 and 11,148126,97343
+d_year = 2000 and d_moy between 1 and 11,143613,97343
+d_year = 2000 and d_moy between 1 and 11,143931,97343
+d_year = 2000 and d_moy between 1 and 11,148684,97343
+d_year = 2000 and d_moy between 1 and 11,142915,97343
+d_year = 2000 and d_moy between 1 and 11,143129,97343
+d_year = 2000 and d_moy between 1 and 11,144213,97343
+d_year = 2000,166862,101191
+d_year = 2000,167640,101191
+d_year = 2000,165033,101191
+d_year = 2000,164869,101191
+d_year = 2000,165717,101191
+d_year = 2000,167443,101191
+d_year = 2000,165329,101191
+d_year = 2000,166687,101191
+d_year = 2000,165159,101191
+d_year = 2000,167107,101191
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),214020,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),215490,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),211946,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),214164,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),215848,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),215141,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),213873,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),214113,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),218797,104147
+d_year = 2000 or (d_year = 2001 and d_moy between 1 and 6),214317,104147
+d_year = 2000 or d_year = 2001,318960,105578
+d_year = 2000 or d_year = 2001,317920,105578
+d_year = 2000 or d_year = 2001,317245,105578
+d_year = 2000 or d_year = 2001,319047,105578
+d_year = 2000 or d_year = 2001,319675,105578
+d_year = 2000 or d_year = 2001,319068,105578
+d_year = 2000 or d_year = 2001,318558,105578
+d_year = 2000 or d_year = 2001,316767,105578
+d_year = 2000 or d_year = 2001,317710,105578
+d_year = 2000 or d_year = 2001,321499,105578
