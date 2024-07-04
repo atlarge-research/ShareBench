@@ -35,6 +35,11 @@ class QueryTools(spark: SparkSession) extends ShareBench(spark) {
     }
   }
 
+  def runTPCDS(): Unit = {
+    val tpcds = new TPCDS(sqlContext = spark.sqlContext)
+    tpcds.run(tpcds.tpcds2_4Queries)
+  }
+
   def getTimeAndCount(queryName: String, dateRange: String, numRuns: Int = 1, verbose: Boolean = false): Array[(Long, Long)] = {
     val queryText = getQueryWithDate(queryName, DIR_QUERIES, dateRange)
 

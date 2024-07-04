@@ -26,6 +26,8 @@ object ShareBench {
         new QueryTools(spark).runTPCDS(queryName = args(1))
       case "queries_tpcds" =>
         new QueryTools(spark).runTPCDS(count = args(1).toInt)
+      case "queries_tpcds_all" =>
+        new QueryTools(spark).runTPCDS()
       case "query" =>
         val times = new QueryTools(spark).getTime(queryName = args(1), dateRange = args(2), numRuns = 2)
         println(s"Attempts took: ${times.mkString(" ms, ")} ms")
