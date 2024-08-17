@@ -12,6 +12,7 @@ subdirs:
     workload_traces: workload-traces
     dynalloc_logs: dynalloc-logs
     telegraf: telegraf
+    query_stats: query-stats
   experiments:
     recipe_books: recipe-books
     results: results
@@ -19,6 +20,7 @@ subdirs:
 buckets:
   workload_traces: data/workload-traces
   dynalloc_logs: data/dynalloc-logs
+  query_stats: data/query-stats
   
 kubernetes:
   ip: 192.168.188.2
