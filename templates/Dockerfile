@@ -1,4 +1,5 @@
 # {{templates.disclaimer}}
+
 FROM apache/spark:3.4.1-scala2.12-java11-ubuntu
 
 USER root

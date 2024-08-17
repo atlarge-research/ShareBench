@@ -1,4 +1,5 @@
 # {{templates.disclaimer}}
+
 apiVersion: v1
 kind: Pod
 metadata:

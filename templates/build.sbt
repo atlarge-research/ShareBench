@@ -1,3 +1,5 @@
+// {{templates.disclaimer}}
+
 name := "{{general.name}}"
 
 version := "1.0"
