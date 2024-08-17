@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream
 import scala.io.Source
 import data_structures.QueryStat
 import utilities.Queries.getQueryWithDate
+import upickle.core
 
 class QueryTools(spark: SparkSession) extends ShareBench(spark) {
 
@@ -65,7 +66,7 @@ class QueryTools(spark: SparkSession) extends ShareBench(spark) {
                    overwriteExisting: Boolean = false, onlyNewRanges: Boolean = true,
                    bucket: String = QueryTools.S3_BUCKET_QUERIES): Unit = {
 
-    var allQueries = utilities.Files.list(QueryTools.DIR_QUERIES).filter(_.endsWith(".sql")).map(_.stripSuffix(".sql"))
+    val allQueries = utilities.Files.list(QueryTools.DIR_QUERIES).filter(_.endsWith(".sql")).map(_.stripSuffix(".sql"))
       .sortBy(_.stripPrefix("q").toInt)
 
     val queries = if (queryName != "all") {
