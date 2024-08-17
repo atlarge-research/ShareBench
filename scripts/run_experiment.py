@@ -91,7 +91,7 @@ def run_recipe(config, book, recipe, start_delay):
     for property in PROPERTIES:
         properties[property] = list(get_for_run_or_default(book, recipe, property))
 
-    append_app_count = get_for_run_or_default(book, recipe, "append_app_count")
+    append_app_count = get_for_run_or_default(book, recipe, "append_app_count", default=True)
 
     print(properties)
     runs = {}
@@ -151,7 +151,7 @@ def get_output_files(book_name, experiment_time, redirect_stdout, redirect_stder
     return (stdout_file, stderr_file)
 
 
-def get_for_run_or_default(book, run, property, verbose=False):
+def get_for_run_or_default(book, run, property, default=None, verbose=False):
 
     if run is not None:
         try:
@@ -165,8 +165,10 @@ def get_for_run_or_default(book, run, property, verbose=False):
     try:
         return book["default"][property]
     except KeyError:
-        raise ValueError(f"Recipe is ill defined - '{property}' neither defined for the recipe, nor a default given.")
-
+        if default is None:
+            raise ValueError(f"Recipe is ill defined - '{property}' neither defined for the recipe, nor a default given.")
+        else: 
+            return default
 
 if __name__ == "__main__":
     main()
