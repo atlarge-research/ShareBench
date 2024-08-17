@@ -39,6 +39,7 @@ EXT_SPARK_ARCHIVE = ".tgz"
 
 PATH_HOSTS = './hosts.txt'
 PATH_INSTALL_TELEGRAF = './scripts/telegraf/install-telegraf.sh'
+PATH_TELEGRAF_CONF = "./scripts/telegraf/telegraf.conf"
 
 def main():
     with open(PATH_CONFIG, "r") as file:
@@ -199,7 +200,7 @@ def download_if_not_exists(url, dst_path):
 def install_telegraf_on_remotes(config):
     print("Installing telegraf on remote machines...")
     ssh_keyfile = config['kubernetes']['ssh_keyfile']
-    run_on_remotes("./install-telegraf.sh", path_hosts=PATH_HOSTS, path_key=ssh_keyfile, files=[PATH_INSTALL_TELEGRAF], verbose=True)
+    run_on_remotes(f"./{os.path.basename(PATH_INSTALL_TELEGRAF)}", path_hosts=PATH_HOSTS, path_key=ssh_keyfile, files=[PATH_INSTALL_TELEGRAF, PATH_TELEGRAF_CONF], verbose=True)
         
 TARGETS = {
     'configurations': apply_configurations,
