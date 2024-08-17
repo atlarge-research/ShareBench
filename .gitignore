@@ -68,6 +68,7 @@ docker/Dockerfile
 build.sbt
 pod-templates/driver.yaml
 pod-templates/executor.yaml
+pod-templates/executor-simple.yaml
 src/main/resources/config.yaml
 docker/log4j2.properties
 spark-defaults.conf
