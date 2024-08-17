@@ -7,7 +7,8 @@ import yaml
 import select
 from kube_configure_nodes import kube_configure_nodes
 from mechanisms import get_mechanism_conf
-from misc.filenames import get_spark_path
+from misc.filenames import get_spark_path, get_spark_jar_path
+from misc.s3 import cp_if_exists
 
 CONFIG = 'config.yaml'
 SPARK_SUBMIT = 'bin/spark-submit'
@@ -41,7 +42,7 @@ def submit_spark_apps(config, workload, num_apps, start_time, add_conf):
         --deploy-mode cluster\
     "
     spark_flags = ' '.join(spark_flags.split())
-    spark_jar = f"local:///opt/{config['general']['name']}/{config['general']['name']}_{config['scala']['version_short']}-1.0.jar"
+    spark_jar = get_spark_jar_path(config)
     spark_mode = "workload"
     dir_tmp_pod_templates = f"{config['dirs']['pod_templates']}/{DIR_TMP}"
 
@@ -79,14 +80,14 @@ def follow_processes(processes):
     return return_codes
 
 def save_workload_traces(config, session_id):
-    s3_bucket_traces_session = f"{config['general']['name']}/{config['buckets']['workload_traces']}/{session_id}/"
+    s3_bucket_traces_session = f"{config['buckets']['workload_traces']}/{session_id}/"
     
     dir_traces_session = f"{config['dirs']['data']}/{config['subdirs']['data']['workload_traces']}/{session_id}"
     
-    s3_cp_if_exists(s3_bucket_traces_session, dir_traces_session, "Workload Traces")
+    cp_if_exists(config, s3_bucket_traces_session, dir_traces_session, "Workload Traces")
 
 def save_from_s3_to_data(config, session_id, resource):
-    s3_bucket = f"{config['general']['name']}/{config['buckets'][resource]}/{session_id}/"
+    s3_bucket = f"{config['buckets'][resource]}/{session_id}/"
     
     local_dir = os.path.join(
         config['dirs']['data'],
@@ -94,16 +95,7 @@ def save_from_s3_to_data(config, session_id, resource):
         session_id
     )
     
-    s3_cp_if_exists(s3_bucket, local_dir, resource)
-
-
-def s3_cp_if_exists(bucket, dst, name=None):
-    if subprocess.run(["./bin/mc", "find", bucket]).returncode == 0:
-        subprocess.run(["./bin/mc", "cp", "-r", bucket, dst])
-        if name is not None:
-            print(f"Success: {name} saved to {dst}!")
-    else:
-        print(f"Warning: Bucket {bucket} does not exist in the S3 storage. Something must have gone wrong with the collection in the applications.")
+    cp_if_exists(config, s3_bucket, local_dir, resource)
 
 def save_telegraf_metrics(config, session_id, script_start_time):
     dir_telegraf_session = os.path.join(
