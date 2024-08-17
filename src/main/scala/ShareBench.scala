@@ -13,7 +13,7 @@ object ShareBench {
     println(DIR_PROJECT)
 
     val mode = args(0)
-    val spark = SparkSession.builder.appName("Data Generator").enableHiveSupport().getOrCreate()
+    val spark = SparkSession.builder.appName("ShareBench").enableHiveSupport().getOrCreate()
 
     mode match {
       case "datagen" =>
