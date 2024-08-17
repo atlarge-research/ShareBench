@@ -1,0 +1,16 @@
+# {{templates.disclaimer}}
+apiVersion: v1
+kind: Pod
+metadata:
+  name: executor
+spec:
+  containers:
+  - name: {{general.name}}
+    image: {{docker.username}}/{{general.name}}:{{docker.version}}
+    resources:
+      requests:
+        ephemeral-storage: "8G"
+      limits:
+        ephemeral-storage: "8G"
+  imagePullSecrets:
+  - name: regcred
