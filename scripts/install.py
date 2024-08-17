@@ -142,6 +142,17 @@ def setup_minio(config):
     cmd = f"{dst_path} alias set {name} {url} {user} {secret}"
     subprocess.run(cmd, check=True, shell=True)
 
+    buckets = [
+        'data/workload-traces',
+        'data/dynalloc-logs',
+        'data/query-stats',
+        'tpcds',
+        'logs/spark-events',
+    ]
+
+    cmd_buckets = f"{dst_path} mb {' '.join(buckets)}"
+    subprocess.run(cmd_buckets, check=True, shell=True)
+
 def setup_influx(config):
     print("Setting up influx...")
     os.makedirs(DIR_BIN, exist_ok=True)
