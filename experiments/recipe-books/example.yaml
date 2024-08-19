@@ -1,21 +1,46 @@
 default:
+  # Define default values for all recipes.
+  # Properties defined in a recipe will override these defaults for that recipe. 
+  # Default values do not need to be specified.
+  # If no default is given but a recipe also does not specify a value the recipe is ill-defined.
+
+  workloads:
+    # Name(s) of the workload(s) to use.
+    - some-workload
+
   mechanisms:
-    - shared
+    # Which mechanism(s) to use. Options are [static, dynamic, shared]
     - static
+    - dynamic
+    - shared
+
   num_apps: 
+    # Number of applications.
     - 2
     - 3
+
   append_app_count: True
+    # Whether or not to append the number of apps to the end of the workload name.
+    # E.g. "some-workload" -> "some-workload_2", "some-workload_3"
+    # Defaults to "True" if not given.
+
 
 recipes:
+  # For each recipe, all combinations of all parameters are executed.
+
   - workloads:
-    - test
-  - workloads:
-    - short_test_2
-    num_apps: 2
-    append_app_count: False
-  - workloads:
-    - another_test
-    - yet_another_test
+    - another-workload
     mechanisms:
-    - dynamic
+    - shared
+    - static
+    # This recipe will run "another-workload" with 2 and 3 apps (see default) for both "shared" and "static" mechanisms.
+    # The actual used workload names will be: "another-workload_2" and "another-workload_3"
+
+  - workloads:
+    - yet-another-workload_2
+    num_apps: 
+    - 2
+    append_app_count: False
+    # This recipe will run "yet-another-workload_2" for 2 apps.
+    # The mechanism choice is taken from the default values. 
+
