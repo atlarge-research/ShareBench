@@ -1,3 +1,7 @@
-# user1@host1
-# user2@host2
+user1@host1
+user2@host2
+# ...
+# example:
+# cloud0_lennart@192.168.185.3
+# cloud1_lennart@192.168.185.4
 # ...
