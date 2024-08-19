@@ -49,7 +49,6 @@ object ShareBench {
       case _ =>
         throw new IllegalArgumentException("Unknown mode: " + mode)
     }
-    println("main returning...")
   }
 
   val DIR_PROJECT = s"/opt/$projectName"
@@ -65,7 +64,7 @@ object ShareBench {
 
     val config = yaml.load(inputStream).asInstanceOf[java.util.Map[String, Any]].asScala.toMap
     val general = config("general").asInstanceOf[java.util.Map[String, Any]].asScala.toMap
-    println("project name set")
+
     general("name").toString
   }
 }
