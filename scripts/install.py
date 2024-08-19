@@ -46,7 +46,7 @@ def main():
         config = yaml.safe_load(file)
 
     parser = argparse.ArgumentParser(description="Apply configurations to template files.")
-    parser.add_argument('-t', '--targets', nargs='+', default=list(TARGETS), help='List of installations to perform. Defaults to all available installations if omitted.')
+    parser.add_argument('-t', '--targets', nargs='+', default=list(TARGETS), choices=list(TARGETS), help=f'List of installations to perform. Defaults to all available installations if omitted.')
 
     args = parser.parse_args()
     targets = args.targets
