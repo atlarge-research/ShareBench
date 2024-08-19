@@ -6,6 +6,8 @@ import org.yaml.snakeyaml.Yaml
 
 import scala.collection.JavaConverters._
 
+// Code partly based on https://github.com/sacheendra/spark-data-generator/blob/main/src/main/scala/ParquetGenerator.scala
+
 object ShareBench {
 
   def main(args: Array[String]): Unit = {

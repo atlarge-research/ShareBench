@@ -1,5 +1,7 @@
 # {{templates.disclaimer}}
 
+# Adapted from https://github.com/sacheendra/spark-data-generator/blob/main/docker/Dockerfile
+
 FROM apache/spark:3.4.1-scala2.12-java11-ubuntu
 
 USER root

@@ -1,3 +1,5 @@
+# Adapted from https://github.com/sacheendra/spark-data-generator/blob/main/docker/Dockerfile-hive
+
 FROM apache/hive:4.0.0-beta-1
 
 USER root

@@ -1,6 +1,8 @@
 import com.databricks.spark.sql.perf.tpcds.TPCDSTables
 import org.apache.spark.sql.SparkSession
 
+// Adapted from https://github.com/sacheendra/spark-data-generator/blob/main/src/main/scala/Datagen.scala
+
 class Data(spark: SparkSession, val storagePath: String) extends ShareBench(spark){
 
   private val FORMAT = "parquet"

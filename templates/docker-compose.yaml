@@ -1,5 +1,7 @@
 # {{templates.disclaimer}}
 
+# Partly taken from https://github.com/sacheendra/spark-data-generator/blob/main/docker/docker-compose.yaml
+
 version: '3.1'
 services:
 
