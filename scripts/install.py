@@ -19,7 +19,7 @@ URLS_JARS = [
     "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.262/aws-java-sdk-bundle-1.12.262.jar",
     "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.3.4/hadoop-aws-3.3.4.jar",
     "https://repo1.maven.org/maven2/org/yaml/snakeyaml/1.26/snakeyaml-1.26.jar",
-    "https://repo1.maven.org/maven2/org/apache/spark/spark-hadoop-cloud_2.12/3.5.1/spark-hadoop-cloud_2.12-3.5.1.jar"
+    "https://repo1.maven.org/maven2/org/apache/spark/spark-hadoop-cloud_2.12/3.5.1/spark-hadoop-cloud_2.12-3.5.1.jar",
     "https://repo1.maven.org/maven2/com/lihaoyi/ujson_2.12/3.3.1/ujson_2.12-3.3.1.jar",
     "https://repo1.maven.org/maven2/com/lihaoyi/upickle_2.12/3.3.1/upickle_2.12-3.3.1.jar",
     "https://repo1.maven.org/maven2/com/lihaoyi/upickle-core_2.12/3.3.1/upickle-core_2.12-3.3.1.jar",
