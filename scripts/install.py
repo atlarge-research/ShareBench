@@ -5,7 +5,7 @@ import os
 import urllib.request
 import yaml
 import shutil
-from misc.filenames import get_spark_full_name, get_spark_path
+import misc.spark as spark
 from telegraf.run_on_remotes import run_on_remotes
 from apply_configurations import apply_configurations
 
@@ -185,8 +185,8 @@ def setup_influx(config):
 def download_spark(config):
     print("Downloading spark...")
     spark_ver = config['spark']['version']
-    spark_full_name = get_spark_full_name(config)
-    spark_path = get_spark_path(config)
+    spark_full_name = spark.get_full_name(config)
+    spark_path = spark.get_source_path(config)
 
     if not os.path.exists(spark_path):
         os.makedirs(DIR_SPARK, exist_ok=True)

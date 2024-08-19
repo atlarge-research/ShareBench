@@ -7,7 +7,21 @@ import misc.spark as spark
 from misc.s3 import cp_if_exists
 
 CONFIG = 'config.yaml'
-SPARK_SUBMIT = 'bin/spark-submit'
+
+def main():
+    with open(CONFIG, 'r') as file:
+        config = yaml.safe_load(file)
+
+    parser = argparse.ArgumentParser(description="Collect query stats.")
+    parser.add_argument("num_executors", type=int, help="Number of executors to use.")
+    parser.add_argument("num_runs", type=int, help="Number of runs for each query")
+    parser.add_argument("--query", default="all", help="Name of query to collect data for")
+    parser.add_argument("--range", default="all", help="Range to collect data for")
+    parser.add_argument("--add_conf", default="", help="Additional Spark configuration")
+    parser.add_argument("--name", default=None, help="Custom bucket and directory name to use for storage")
+    args = parser.parse_args()
+
+    collect_query_stats(config, args.num_executors, args.query, args.range, args.num_runs, args.name, args.add_conf)
 
 def collect_query_stats(config, num_executors, query, range, num_runs, custom_name=None, add_conf=""):
 
@@ -32,26 +46,8 @@ def collect_query_stats(config, num_executors, query, range, num_runs, custom_na
         bucket = f"{bucket}/{query}.csv"
     else:
         bucket = f"{bucket}/"
-        
+
     cp_if_exists(config, bucket, dir, "Query Stats")
 
 if __name__ == "__main__":
-    with open(CONFIG, 'r') as file:
-        config = yaml.safe_load(file)
-
-    parser = argparse.ArgumentParser(description="Collect query stats.")
-    # parser.add_argument("num_apps", type=int, help="Number of applications to submit")
-    # parser.add_argument("workload", help="Workload file path")
-    # parser.add_argument("start_delay", type=int, help="Delay before starting the workload")
-    # parser.add_argument('-m', '--mechanism', type=str, default=None, help="Mechansim to use.")
-    parser.add_argument("num_executors", type=int, help="Number of executors to use.")
-    parser.add_argument("num_runs", type=int, help="Number of runs for each query")
-    parser.add_argument("--query", default="all", help="Name of query to collect data for")
-    parser.add_argument("--range", default="all", help="Range to collect data for")
-    parser.add_argument("--add_conf", default="", help="Additional Spark configuration")
-    parser.add_argument("--name", default=None, help="Custom bucket and directory name to use for storage")
-    args = parser.parse_args()
-
-    collect_query_stats(config, args.num_executors, args.query, args.range, args.num_runs, args.name, args.add_conf)
-
-    # run_workload(config, args.workload, args.num_apps, args.start_delay, args.add_conf, args.mechanism)
+    main()
