@@ -3,7 +3,7 @@ import os
 import subprocess
 import time
 import yaml
-from misc.filenames import get_spark_path, get_spark_jar_path
+import misc.spark as spark
 from misc.s3 import cp_if_exists
 
 CONFIG = 'config.yaml'
@@ -11,37 +11,19 @@ SPARK_SUBMIT = 'bin/spark-submit'
 
 def collect_query_stats(config, num_executors, query, range, num_runs, custom_name=None, add_conf=""):
 
-    conf = []
-    conf.append(f"spark.executor.memory={config['spark']['memory']}g")
-    conf.append(f"spark.executor.instances={num_executors}")
+    conf = [
+        f"spark.executor.memory={config['spark']['memory']}g",
+        f"spark.executor.instances={num_executors}",
+        f"spark.kubernetes.executor.podTemplateFile={config['templates']['targets']['executor_pod_simple']['dst']}",
+    ]
 
     name = num_executors if custom_name is None else custom_name
     bucket = f"{config['buckets']['query_stats']}/{name}"
 
-    spark_submit = f"{get_spark_path(config)}/{SPARK_SUBMIT}"
-    spark_flags = f"""
-            --class {config['scala']['class']}
-            --properties-file {config['templates']['targets']['spark']['dst']}
-            --conf spark.kubernetes.driver.podTemplateFile={config['templates']['targets']['driver_pod']['dst']}
-            --conf spark.kubernetes.executor.podTemplateFile={config['templates']['targets']['executor_pod_simple']['dst']}
-            --deploy-mode cluster
-        """
-    spark_flags = ' '.join(spark_flags.split())
-    spark_jar = get_spark_jar_path(config)
-
     mode = "query_stats"
     args = f"{query} {range} {num_runs} {bucket}"
 
-    command = ' '.join([
-        spark_submit,
-        spark_flags,
-        ' '.join(list(map(lambda s: "--conf " + s, conf))),
-        add_conf,
-        spark_jar,
-        mode,
-        args
-    ])
-
+    command = spark.get_submit_command(config, mode, args, conf, add_conf)
     print(command)
     subprocess.run(command, check=True, shell=True)
 

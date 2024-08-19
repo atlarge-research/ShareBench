@@ -7,7 +7,7 @@ import yaml
 import select
 from kube_configure_nodes import kube_configure_nodes
 from mechanisms import get_mechanism_conf
-from misc.filenames import get_spark_path, get_spark_jar_path
+import misc.spark as spark
 from misc.s3 import cp_if_exists
 
 CONFIG = 'config.yaml'
@@ -33,28 +33,22 @@ def create_pod_templates(config, num_apps):
 
 def submit_spark_apps(config, workload, num_apps, start_time, add_conf):
 
-    # Spark submit command and flags
-    spark_submit = f"{get_spark_path(config)}/{SPARK_SUBMIT}"
-    spark_flags = f"\
-        --class {config['scala']['class']} \
-        --properties-file {config['templates']['targets']['spark']['dst']} \
-        --conf spark.kubernetes.driver.podTemplateFile=./{config['dirs']['pod_templates']}/driver.yaml \
-        --deploy-mode cluster\
-    "
-    spark_flags = ' '.join(spark_flags.split())
-    spark_jar = get_spark_jar_path(config)
-    spark_mode = "workload"
     dir_tmp_pod_templates = f"{config['dirs']['pod_templates']}/{DIR_TMP}"
-
-    # Check if SPARK_SUBMIT file exists
-    if not os.path.isfile(spark_submit):
-        raise FileNotFoundError(f"Error: \'{spark_submit}\' not found. Are you in the root directory of the project?")
-
+    
     processes = []
 
     for i in range(num_apps):
-        conf_executor_template = f"--conf spark.kubernetes.executor.podTemplateFile={dir_tmp_pod_templates}/executor_{i}.yaml"
-        command = f"{spark_submit} {spark_flags} {conf_executor_template} {add_conf} {spark_jar} {spark_mode} {workload} {i} {start_time}"
+
+        conf = [
+            f"spark.kubernetes.executor.podTemplateFile={dir_tmp_pod_templates}/executor_{i}.yaml"
+        ]
+
+        args = [
+            f"{i}",
+            f"{start_time}",
+        ]
+
+        command = spark.get_submit_command(config, "workload", args, conf)
         print(command)
         processes.append(subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE))
 
