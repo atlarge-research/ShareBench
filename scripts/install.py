@@ -71,7 +71,6 @@ def install_docker(config):
     else:
         print(f"User {os.getenv('USER')} is already in the docker group. Skipping usermod.")
 
-    subprocess.run("newgrp docker", check=True, shell=True)
     subprocess.run("sudo systemctl enable docker.service", check=True, shell=True)
     subprocess.run("sudo systemctl enable containerd.service", check=True, shell=True)
 
