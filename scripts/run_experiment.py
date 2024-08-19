@@ -51,6 +51,7 @@ def run_experiment(config, path_book, start_delay, redirect_stdout=False, redire
                 print("No 'recipes' found in book.")
                 return
 
+            print(f"Starting experiment! ({experiment_time})")
             recipe_runs = []
 
             for i, recipe in enumerate(recipes):
