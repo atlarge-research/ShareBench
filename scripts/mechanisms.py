@@ -31,7 +31,7 @@ def get_mechanism_conf(config, num_apps, mechanism):
             conf.append("spark.dynamicAllocation.enabled=true")
             conf.append("spark.dyanmicAllocation.minExecutors=0")
             conf.append(f"spark.dynamicAllocation.maxExecutors={num_worker_nodes}")
-            conf.append("park.dynamicAllocation.initialExecutors=0")
+            conf.append("spark.dynamicAllocation.initialExecutors=0")
             conf.append(f"spark.kubernetes.allocation.batch.size={num_worker_nodes // num_apps}")
             conf.append(f"spark.dynamicAllocation.executorIdleTimeout=15s")
             conf.append(f"spark.dynamicAllocation.shuffleTracking.enabled=true")
