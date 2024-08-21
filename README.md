@@ -1,6 +1,6 @@
 # ShareBench
 
-_ShareBench_ is a tool set for real-world performance analysis studies of distributed resource-sharing mechanisms and policies, developed as part of my Computer Science Bachelor Thesis on _performance characterization of distributed resource-sharing mechanisms_.
+_ShareBench_ is a tool set for real-world performance analysis studies of distributed resource-sharing mechanisms and policies, developed as part of the Computer Science Bachelor Thesis on _Performance Characterization of Distributed Resource-Sharing Mechanisms_ by Lennart K. M. Schulz.
 
 The work consists of two components: [_ShareBench-Base_](docs/sharebench-base.md) and [_ShareBench-Gen_](docs/sharebench-gen.md). The former is an infrastructure framework for automated real-world performance analysis studies. The latter is a workload generator for OLAP workloads based on the TPC-DS data set and queries.
 Documentation for each of the components can be found in the [`docs`](docs/) folder.
